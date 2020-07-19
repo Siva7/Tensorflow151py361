@@ -29,3 +29,7 @@ if __name__ == '__main__':
         _,indices = sess.run(fetches=predicted_tensor,feed_dict={training_data:train_data,test_entry:test_data[3,:]})
         display_digit_as_image(train_data[indices])
         print("Actual label",str(train_labels[indices]))
+        writer = tf.summary.FileWriter(logdir='output2', graph=sess.graph)
+        writer.flush()
+        writer.close()
+
