@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
+import numpy as np
 
 def display_digit(data,label):
     plt.title("Label ="+str(label))
@@ -38,8 +39,10 @@ with tf.Session() as sess:
 
     for i in range(100):
         training_data, training_labels = mnist.train.next_batch(1000)
-        sess.run(fetches=[optimization],feed_dict={input_to_cnn:training_data,train_labels:training_labels})
-
+        _,logit = sess.run(fetches=[optimization,logits],feed_dict={input_to_cnn:training_data,train_labels:training_labels})
+    for x in range(10):
+        print(np.argmax(logit[x]),end="=>")
+        print(training_labels[x])
     testing_data, testing_labels = mnist.test.next_batch(10)
     result, top_id = sess.run(fetches=[logits, top_id], feed_dict={input_to_cnn: testing_data,train_labels:testing_labels})
 
